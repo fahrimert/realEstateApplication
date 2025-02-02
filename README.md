@@ -1,4 +1,4 @@
-# Ankara Emlak Şirketi Web Sitesi
+#  Emlak Şirketi Web Sitesi
 
 Bu proje, özellikle yerel bir şehir için geliştirilmiş bir emlak şirketi web sitesidir. Örnek olarak Ankara için yapılmıştır, ancak herhangi bir şehir için özelleştirilebilir. Site, admin ve danışman yönetimi, ilan yönetimi ve müşteri tarafında ilan arama gibi özellikler sunmaktadır.
 
