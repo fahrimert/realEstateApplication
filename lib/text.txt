@@ -1,0 +1,18 @@
+import {PrismaClient} from "@prisma/client/edge"
+import { withAccelerate } from '@prisma/extension-accelerate'
+
+import { PrismaPg } from '@prisma/adapter-pg'
+import { Pool } from 'pg'
+const prismadb = new PrismaClient().$extends(withAccelerate())
+
+
+/* if(process.env.NODE_ENV !== "production") globalThis.prisma = prismadb
+ */ 
+
+
+
+export default prismadb
+
+
+
+DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiMGU2MjEzYmMtODJlNy00MzBhLWJiMWYtOGFhYTZiNWNkMjc0IiwidGVuYW50X2lkIjoiOThiZTVhOWFlZGZjOTZkZmY4YmIzNGMwZWQ3ZmIwZTZiOGI2ZmRlZGJmMmUwNDVhM2MzOTYxZDY5NWRiYzJiNiIsImludGVybmFsX3NlY3JldCI6ImMzNzlhY2EwLWIxMjMtNDNmNC1iMzkyLWNkYjA3MTJhZjgzZiJ9.wfWTc7XzrBMRkfAbO0S_5d9b4Jwzq1UtJHU550DoxeA"

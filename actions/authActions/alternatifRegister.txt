@@ -1,0 +1,56 @@
+"use server";
+import { v4 as uuidv4 } from "uuid";
+import bcrypt from "bcrypt";
+import { Prisma } from "@prisma/client";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { FormState, LoginSchema } from "@/schema";
+import prismadb from "@/lib/db";
+
+export async function signin(
+  stateRegister: FormState,
+  formData: FormData
+) {
+  const validatedFields = LoginSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
+
+  try {
+    if (!validatedFields.success) {
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+      };
+    }
+
+      const hashedpwd = await bcrypt.hash(validatedFields.data.password, 10);
+      const emailToken = uuidv4();
+
+
+      await prismadb.user.create({
+        data: {
+          email: validatedFields.data.email,
+          password: hashedpwd,
+        },
+      });
+      if (validatedFields.success) {
+        
+        return {
+          serverSuccessw: "Kullanıcı Başarıyla kayıt edildi",
+        };
+      }
+    } 
+   catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      // The .code property can be accessed in a type-safe manner
+      if (error.code === 'P2002') {
+        return {
+          serverErrorForRegister: "Aynı email ile bir başka kullanıcı daha bulunmaktadır.",
+        };
+      }}
+    return {
+      serverErrorForRegister: "Kullanıcı Kayıt Edilemedi Bir Daha Deneyiniz",
+    };
+  }
+ 
+}
